@@ -12,6 +12,7 @@ app.use(express.json())
 
 
 
+<<<<<<< HEAD
 
 
 
@@ -44,6 +45,8 @@ run().catch(console.dir);
 
 
 
+=======
+>>>>>>> origin/main
 app.get('/', (req, res) => {
     res.send("Tourism site is appears now! ")
 })
