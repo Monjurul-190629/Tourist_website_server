@@ -12,9 +12,6 @@ app.use(express.json())
 
 
 
-<<<<<<< HEAD
-
-
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5u6pxxs.mongodb.net/?retryWrites=true&w=majority`;
@@ -33,6 +30,24 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
+
+
+
+        /// create database
+        const SpotCollection = client.db("SpotDB").collection('TouristSpot');
+
+
+
+        /// post
+        /// post
+        app.post('/TouristSpots', async (req, res) => {
+            const newSpot = req.body;
+            console.log(newUser)
+            const result = await SpotCollectionCollection.insertOne(newSpot);
+            res.send(result)
+        })
+
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
@@ -45,8 +60,6 @@ run().catch(console.dir);
 
 
 
-=======
->>>>>>> origin/main
 app.get('/', (req, res) => {
     res.send("Tourism site is appears now! ")
 })
