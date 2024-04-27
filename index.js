@@ -42,10 +42,17 @@ async function run() {
         /// post
         app.post('/TouristSpots', async (req, res) => {
             const newSpot = req.body;
-            console.log(newUser)
-            const result = await SpotCollectionCollection.insertOne(newSpot);
+            console.log(newSpot)
+            const result = await SpotCollection.insertOne(newSpot);
             res.send(result)
         })
+        /// get data from database
+        app.get('/TouristSpots', async (req, res) => {
+            const cursor = SpotCollection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
 
 
         // Send a ping to confirm a successful connection
