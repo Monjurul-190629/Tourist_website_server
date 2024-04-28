@@ -13,7 +13,7 @@ app.use(express.json())
 
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.5u6pxxs.mongodb.net/?retryWrites=true&w=majority`;
 
 
@@ -52,7 +52,35 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result)
         })
-
+        //// FOR UPDATE
+        app.get('/TouristSpots/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: new ObjectId(id) }
+            const result = await SpotCollection.findOne(query)
+            res.send(result)
+        })
+       
+        app.put('/TouristSpots/:id', async(req, res) => {
+            const id = req.params.id;
+            const filter = { _id : new ObjectId(id) };
+            const options = { upsert: true };
+            const spot1 = req.body;
+            const updateDoc = {
+              $set: {
+                image : spot1.image,
+                tourist_spot_name : spot1.tourist_spot_name,
+                country_name : spot1.country_name,
+                average_cost : spot1.average_cost,
+                travel_time : spot1.travel_time,
+                location: spot1.location,
+                short_description : spot1.short_description,
+                seasonality : spot1.seasonality,
+                total_visitors_per_year : spot1.total_visitors_per_year
+              },
+            };
+            const result = await SpotCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+           })
 
 
         // Send a ping to confirm a successful connection
