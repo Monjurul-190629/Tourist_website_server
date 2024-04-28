@@ -35,10 +35,27 @@ async function run() {
 
         /// create database
         const SpotCollection = client.db("SpotDB").collection('TouristSpot');
+        const Country_collection = client.db("CountryDB").collection("CountrySpot");
 
 
+       ////// post
+        app.post('/Country_collection', async (req, res) => {
+            const newSpot = req.body;
+            console.log(newSpot)
+            const result = await Country_collection.insertOne(newSpot);
+            res.send(result)
+        })
 
-        /// post
+        
+        /// get data from database
+        app.get('/Country_collection', async (req, res) => {
+            const cursor = Country_collection.find();
+            const result = await cursor.toArray();
+            res.send(result)
+        })
+
+        
+        
         /// post
         app.post('/TouristSpots', async (req, res) => {
             const newSpot = req.body;
@@ -83,7 +100,6 @@ async function run() {
             res.send(result)
         })
         ////delete
-        /// delete a id
         app.delete('/TouristSpots/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: new ObjectId(id) }
